@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const response = await fetch(`${baseURL}/threads`, {
       method: 'POST',
       body: JSON.stringify({
-        content: `<div>${post}</div>`,
+        content: `<p>${post}</p>`,
         files: [],
         privacyType: 0
       }),
