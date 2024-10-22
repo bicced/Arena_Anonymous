@@ -4,14 +4,14 @@ const baseURL = "https://api.starsarena.com";
 
 export async function POST(request: Request) {
   try {
-    const { post } = await request.json();
+    const { content } = await request.json();
     
     const response = await fetch(`${baseURL}/threads`, {
       method: 'POST',
       body: JSON.stringify({
-        content: `<p>${post}</p>`,
+        content: `<p>${content}</p>`,
         files: [],
-        privacyType: 0
+        privacyType: 0,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +20,8 @@ export async function POST(request: Request) {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json();
+      return NextResponse.json({ error: errorData.message || `HTTP error! status: ${response.status}` }, { status: response.status });
     }
 
     const data = await response.json();
